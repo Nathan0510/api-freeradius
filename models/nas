@@ -1,0 +1,13 @@
+package models
+
+type Nas struct {
+    ID        int    `gorm:"primaryKey;autoIncrement"`
+    Nasname     string
+    Shortname   string
+    Secret      string
+
+}
+
+func (Nas) TableName() string {
+    return "nas"
+}

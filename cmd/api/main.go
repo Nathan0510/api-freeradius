@@ -5,7 +5,6 @@ import (
     "fmt"
     "log"
     "api-freeradius/db"
-    "api-freeradius/internal/app"
     "api-freeradius/internal/api/controllers"
     "github.com/joho/godotenv"
     "github.com/gin-gonic/gin"
@@ -30,28 +29,12 @@ func main() {
         return
     }
 
-    if err := app.CreateUserRadcheck("toto", "toto"); err != nil {
-        log.Fatal("Erreur ajout radcheck user:", err)
-    }
-
-    if err := app.CreateUserRadreply("toto", "Framed-IP-Address", "192.168.1.50"); err != nil {
-        log.Fatal("Erreur ajout radreply user:", err)
-    }
-
-    if err := app.CreateUserRadreply("toto", "Mikrotik-Group", "Profile-Internet"); err != nil {
-        log.Fatal("Erreur ajout radreply user:", err)
-    }
-
-//    db.DB.Model(&models.Radreply{}).Where(&models.Radreply{Username: "toto", Attribute: "Mikrotik-Group"}).Update("Value", "Profile-Customer1")
-
-    if err := app.UpdateUserRadreply("toto", "Mikrotik-Group", "Profile-Customer1"); err != nil {
-        log.Println("Erreur update Radreply :", err)
-    }
-
-
     r := gin.Default()
 
-    r.GET("/ping", controllers.ping)
+    r.GET("/ping", controllers.Ping)
+    r.POST("/user", controllers.User)
+    r.POST("/nas", controllers.Nas)
+
 
     r.Run()
 
