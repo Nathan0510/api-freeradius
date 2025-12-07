@@ -32,9 +32,16 @@ func main() {
     r := gin.Default()
 
     r.GET("/ping", controllers.Ping)
-    r.POST("/user", controllers.User)
-    r.POST("/nas", controllers.Nas)
+    r.POST("/user", controllers.CreateUser)
+    r.GET("/user", controllers.GetAllUsers)
+    r.GET("/user/:username", controllers.GetUser)
+    r.DELETE("/user/:username", controllers.DeleteUser)
 
+    r.POST("/nas", controllers.CreateNas)
+    r.GET("/nas", controllers.GetAllNas)
+    r.GET("/nas/:username", controllers.GetNas)
+    r.DELETE("/nas/:username", controllers.DeleteNas)
+    r.PATCH("/nas/:username", controllers.UpdateNas)
 
     r.Run()
 
