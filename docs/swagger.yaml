@@ -1,0 +1,53 @@
+basePath: /
+definitions:
+  models.Nas:
+    properties:
+      community:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      nasname:
+        type: string
+      ports:
+        type: integer
+      secret:
+        type: string
+      server:
+        type: string
+      shortname:
+        type: string
+      type:
+        type: string
+    type: object
+host: 192.168.1.240:8080
+info:
+  contact: {}
+  description: API pour la gestion des utilisateurs et des NAS Radius.
+  title: Radius API
+  version: "1.0"
+paths:
+  /nas:
+    get:
+      consumes:
+      - application/json
+      description: Récupère la liste complète de tous les NAS configurés
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Liste des NAS récupérée avec succès
+          schema:
+            items:
+              $ref: '#/definitions/models.Nas'
+            type: array
+        "500":
+          description: Erreur serveur interne
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Récupérer tous les NAS Radius
+      tags:
+      - NAS
+swagger: "2.0"

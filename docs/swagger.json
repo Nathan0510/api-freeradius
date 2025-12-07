@@ -1,0 +1,80 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API pour la gestion des utilisateurs et des NAS Radius.",
+        "title": "Radius API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "192.168.1.240:8080",
+    "basePath": "/",
+    "paths": {
+        "/nas": {
+            "get": {
+                "description": "Récupère la liste complète de tous les NAS configurés",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Récupérer tous les NAS Radius",
+                "responses": {
+                    "200": {
+                        "description": "Liste des NAS récupérée avec succès",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Nas"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur interne",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Nas": {
+            "type": "object",
+            "properties": {
+                "community": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nasname": {
+                    "type": "string"
+                },
+                "ports": {
+                    "type": "integer"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "server": {
+                    "type": "string"
+                },
+                "shortname": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
