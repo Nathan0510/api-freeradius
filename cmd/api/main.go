@@ -5,17 +5,17 @@ import (
     "fmt"
     "log"
     "api-freeradius/db"
-    "api-freeradius/internal/api/controllers"
     "github.com/joho/godotenv"
     "github.com/gin-gonic/gin"
     _ "api-freeradius/docs"
     "github.com/swaggo/files"
     "github.com/swaggo/gin-swagger"
+    "api-freeradius/internal/api/routes"
 )
 
 // @title Radius API
 // @version 1.0
-// @description API Freeradius pour la gestion des utilisateurs et des NAS
+// @description API for managing FreeRADIUS users and NAS devices
 // @BasePath /
 
 func main() {
@@ -39,20 +39,9 @@ func main() {
 
     r := gin.Default()
     url := ginSwagger.URL("/swagger/doc.json")
-//    url := ginSwagger.URL("http://172.26.239.47:8080/swagger/doc.json")
     r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
-    r.GET("/ping", controllers.Ping)
-    r.POST("/user", controllers.CreateUser)
-    r.GET("/user", controllers.GetAllUsers)
-    r.GET("/user/:username", controllers.GetUser)
-    r.DELETE("/user/:username", controllers.DeleteUser)
-
-    r.POST("/nas", controllers.CreateNas)
-    r.GET("/nas", controllers.GetAllNas)
-    r.GET("/nas/:username", controllers.GetNas)
-    r.DELETE("/nas/:username", controllers.DeleteNas)
-    r.PATCH("/nas/:username", controllers.UpdateNas)
+    routes.SetupRouter(r)
 
     r.Run()
 

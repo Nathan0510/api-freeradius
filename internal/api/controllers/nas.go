@@ -7,7 +7,16 @@ import (
   "api-freeradius/internal/app"
 )
 
-
+// GetAllNas godoc
+// @Summary Add NAS
+// @Description Add NAS
+// @Tags NAS
+// @Accept json
+// @Produce json
+// @Param nas body models.Nas true "New NAS data"
+// @Success 200 "NAS added successfully"
+// @Failure 500 "Failure insert data into dabasase"
+// @Router /nas [post]
 func CreateNas(c *gin.Context){
 
   var json models.Nas
@@ -24,19 +33,17 @@ func CreateNas(c *gin.Context){
   return
   }
 
-  c.JSON(http.StatusOK, gin.H{
-    "message": "Nas"  + json.Nasname + " bien ajouté",
-  })
+  c.JSON(http.StatusOK, gin.H{"message": "Nas "  + json.Nasname + " added successfully"})
 
 }
 // GetAllNas godoc
-// @Summary Récupérer tous les NAS Radius
-// @Description Récupère la liste complète de tous les NAS configurés
+// @Summary Get all NAS
+// @Description Get all NAS
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Success 200 {array} models.Nas "Liste des NAS récupérée avec succès"
-// @Failure 500 {object} map[string]interface{} "Erreur serveur interne"
+// @Success 200 ""
+// @Failure 500 "Error"
 // @Router /nas [get]
 func GetAllNas(c *gin.Context) {
   nasList, err := app.GetAllNas()
@@ -49,13 +56,13 @@ func GetAllNas(c *gin.Context) {
 
 
 // GetNas godoc
-// @Summary Afficher un NAS
-// @Description Afficher la configuration d'un NAS
+// @Summary Get a specific NAS
+// @Description Get a specific NAS
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Success 200 {array} models.Nas "NAS récupérée avec succès"
-// @Failure 500 {object} map[string]interface{} "Erreur serveur interne"
+// @Success 200 ""
+// @Failure 500 "Error"
 // @Router /nas/{username} [get]
 func GetNas(c *gin.Context) {
   nasname := c.Param("username")
@@ -67,13 +74,13 @@ func GetNas(c *gin.Context) {
   c.JSON(http.StatusOK, nas)
 }
 
-// DeleteNas supprime un NAS par son nom d'utilisateur
-// @Summary Supprime un NAS
-// @Description Supprime un NAS existant à partir du nom d'utilisateur fourni
+// DeleteNas godoc
+// @Summary Delete NAS
+// @Description Delete NAS
 // @Tags NAS
-// @Param username path string true "Nom d'utilisateur du NAS"
-// @Success 200 {object} map[string]string "Message de succès"  example(map[string]string{"message":"Nas deleted successfully"})
-// @Failure 500 {object} map[string]string "Message d'erreur"
+// @Param username path string true "Nasname of the NAS to delete"
+// @Success 200 "Nas deleted successfully"
+// @Failure 500 "Error"
 // @Router /nas/{username} [delete]
 func DeleteNas(c *gin.Context) {
   nasname := c.Param("username")
@@ -82,12 +89,24 @@ func DeleteNas(c *gin.Context) {
     c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
     return
   }
-  c.JSON(http.StatusOK, gin.H{"message": "Nas deleted successfully"})
+  c.JSON(http.StatusOK, gin.H{"message": "Nas " + nasname + " deleted successfully"})
 }
 
+
+// UpdateNas godoc
+// @Summary Update a NAS
+// @Description Update a NAS
+// @Tags NAS
+// @Accept json
+// @Produce json
+// @Param username path string true "Nasname of the NAS to update"
+// @Param nas body models.Nas true "Data to update the NAS"
+// @Success 200 "Nas updated successfully"
+// @Failure 500 "Error"
+// @Router /nas/{username} [put]
 func UpdateNas(c *gin.Context) {
   nasname := c.Param("username")
-  var json models.NewNas
+  var json models.Nas
 
   if err := c.ShouldBindJSON(&json); err != nil {
     c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -98,5 +117,5 @@ func UpdateNas(c *gin.Context) {
     c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
     return
   }
-  c.JSON(http.StatusOK, gin.H{"message": "Nas updated successfully"})
+  c.JSON(http.StatusOK, gin.H{"message": "Nas " + nasname + " updated successfully"})
 }

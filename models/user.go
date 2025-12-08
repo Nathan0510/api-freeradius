@@ -24,19 +24,3 @@ type Radreply struct {
 func (Radreply) TableName() string {
     return "radreply"
 }
-
-type Option struct {
-    Attribute string `json:"attribute"`
-    Value     string `json:"value"`
-}
-
-type User struct {
-    ID       int     `gorm:"primaryKey"`
-    Username string  `json:"username"`
-    Password string  `json:"password"`
-    Options  []Option `json:"options" gorm:"type:jsonb"`
-}
-
-func (User) TableName() string {
-    return "radcheck"
-}

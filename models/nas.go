@@ -15,9 +15,3 @@ type Nas struct {
 func (Nas) TableName() string {
     return "nas"
 }
-
-type NewNas struct {
-    Nasname     string  `json:"Nasname"`
-    Shortname   string  `json:"shortname"`
-    Secret      string  `json:"secret"`
-}

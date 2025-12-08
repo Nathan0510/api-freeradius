@@ -21,9 +21,31 @@ definitions:
       type:
         type: string
     type: object
+  models.Radcheck:
+    properties:
+      Options:
+        items:
+          $ref: '#/definitions/models.Radreply'
+        type: array
+      attribute:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+      value:
+        type: string
+    type: object
+  models.Radreply:
+    properties:
+      Attribute:
+        type: string
+      Value:
+        type: string
+    type: object
 info:
   contact: {}
-  description: API Freeradius pour la gestion des utilisateurs et des NAS
+  description: API for managing FreeRADIUS users and NAS devices
   title: Radius API
   version: "1.0"
 paths:
@@ -31,69 +53,173 @@ paths:
     get:
       consumes:
       - application/json
-      description: Récupère la liste complète de tous les NAS configurés
+      description: Get all NAS
       produces:
       - application/json
       responses:
         "200":
-          description: Liste des NAS récupérée avec succès
-          schema:
-            items:
-              $ref: '#/definitions/models.Nas'
-            type: array
+          description: ""
         "500":
-          description: Erreur serveur interne
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Récupérer tous les NAS Radius
+          description: Error
+      summary: Get all NAS
+      tags:
+      - NAS
+    post:
+      consumes:
+      - application/json
+      description: Add NAS
+      parameters:
+      - description: New NAS data
+        in: body
+        name: nas
+        required: true
+        schema:
+          $ref: '#/definitions/models.Nas'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: NAS added successfully
+        "500":
+          description: Failure insert data into dabasase
+      summary: Add NAS
       tags:
       - NAS
   /nas/{username}:
     delete:
-      description: Supprime un NAS existant à partir du nom d'utilisateur fourni
+      description: Delete NAS
       parameters:
-      - description: Nom d'utilisateur du NAS
+      - description: Nasname of the NAS to delete
         in: path
         name: username
         required: true
         type: string
       responses:
         "200":
-          description: Message de succès"  example(map[string]string{"message":"Nas
-            deleted successfully"})
-          schema:
-            additionalProperties:
-              type: string
-            type: object
+          description: Nas deleted successfully
         "500":
-          description: Message d'erreur
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Supprime un NAS
+          description: Error
+      summary: Delete NAS
       tags:
       - NAS
     get:
       consumes:
       - application/json
-      description: Afficher la configuration d'un NAS
+      description: Get a specific NAS
       produces:
       - application/json
       responses:
         "200":
-          description: NAS récupérée avec succès
-          schema:
-            items:
-              $ref: '#/definitions/models.Nas'
-            type: array
+          description: ""
         "500":
-          description: Erreur serveur interne
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Afficher un NAS
+          description: Error
+      summary: Get a specific NAS
       tags:
       - NAS
+    put:
+      consumes:
+      - application/json
+      description: Update a NAS
+      parameters:
+      - description: Nasname of the NAS to update
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Data to update the NAS
+        in: body
+        name: nas
+        required: true
+        schema:
+          $ref: '#/definitions/models.Nas'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Nas updated successfully
+        "500":
+          description: Error
+      summary: Update a NAS
+      tags:
+      - NAS
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Récupère la liste complète des utilisateurs (radcheck) avec leurs
+        radreply associées.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Liste des utilisateurs complète
+        "500":
+          description: Erreur interne du serveur
+      summary: Récupérer tous les utilisateurs Radius
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new Radius user with radcheck and associated radreply
+        options.
+      parameters:
+      - description: New Radius user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Radcheck'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User added successfully
+        "400":
+          description: Erreur ajout user
+      summary: Create a new Radius user
+      tags:
+      - users
+  /users/{username}:
+    delete:
+      consumes:
+      - application/json
+      description: Supprime un utilisateur spécifique (radcheck) et ses radreply associées.
+      parameters:
+      - description: Nom d'utilisateur du Radius à supprimer
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Utilisateur supprimé avec succès
+        "500":
+          description: Erreur interne du serveur
+      summary: Supprimer un utilisateur Radius
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Récupère les détails d'un utilisateur spécifique (radcheck) avec
+        ses radreply associées.
+      parameters:
+      - description: Nom d'utilisateur du Radius
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Détails de l'utilisateur
+        "500":
+          description: Erreur interne du serveur
+      summary: Récupérer un utilisateur Radius spécifique
+      tags:
+      - users
 swagger: "2.0"

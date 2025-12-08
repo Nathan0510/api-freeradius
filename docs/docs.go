@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/nas": {
             "get": {
-                "description": "Récupère la liste complète de tous les NAS configurés",
+                "description": "Get all NAS",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,30 +27,52 @@ const docTemplate = `{
                 "tags": [
                     "NAS"
                 ],
-                "summary": "Récupérer tous les NAS Radius",
+                "summary": "Get all NAS",
                 "responses": {
                     "200": {
-                        "description": "Liste des NAS récupérée avec succès",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Nas"
-                            }
-                        }
+                        "description": ""
                     },
                     "500": {
-                        "description": "Erreur serveur interne",
+                        "description": "Error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Add NAS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Add NAS",
+                "parameters": [
+                    {
+                        "description": "New NAS data",
+                        "name": "nas",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/models.Nas"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "NAS added successfully"
+                    },
+                    "500": {
+                        "description": "Failure insert data into dabasase"
                     }
                 }
             }
         },
         "/nas/{username}": {
             "get": {
-                "description": "Afficher la configuration d'un NAS",
+                "description": "Get a specific NAS",
                 "consumes": [
                     "application/json"
                 ],
@@ -60,36 +82,65 @@ const docTemplate = `{
                 "tags": [
                     "NAS"
                 ],
-                "summary": "Afficher un NAS",
+                "summary": "Get a specific NAS",
                 "responses": {
                     "200": {
-                        "description": "NAS récupérée avec succès",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Nas"
-                            }
-                        }
+                        "description": ""
                     },
                     "500": {
-                        "description": "Erreur serveur interne",
+                        "description": "Error"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a NAS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Update a NAS",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nasname of the NAS to update",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Data to update the NAS",
+                        "name": "nas",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/models.Nas"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nas updated successfully"
+                    },
+                    "500": {
+                        "description": "Error"
                     }
                 }
             },
             "delete": {
-                "description": "Supprime un NAS existant à partir du nom d'utilisateur fourni",
+                "description": "Delete NAS",
                 "tags": [
                     "NAS"
                 ],
-                "summary": "Supprime un NAS",
+                "summary": "Delete NAS",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Nom d'utilisateur du NAS",
+                        "description": "Nasname of the NAS to delete",
                         "name": "username",
                         "in": "path",
                         "required": true
@@ -97,22 +148,127 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Message de succès\"  example(map[string]string{\"message\":\"Nas deleted successfully\"})",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
+                        "description": "Nas deleted successfully"
                     },
                     "500": {
-                        "description": "Message d'erreur",
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Récupère la liste complète des utilisateurs (radcheck) avec leurs radreply associées.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Récupérer tous les utilisateurs Radius",
+                "responses": {
+                    "200": {
+                        "description": "Liste des utilisateurs complète"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Radius user with radcheck and associated radreply options.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create a new Radius user",
+                "parameters": [
+                    {
+                        "description": "New Radius user data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/models.Radcheck"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User added successfully"
+                    },
+                    "400": {
+                        "description": "Erreur ajout user"
+                    }
+                }
+            }
+        },
+        "/users/{username}": {
+            "get": {
+                "description": "Récupère les détails d'un utilisateur spécifique (radcheck) avec ses radreply associées.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Récupérer un utilisateur Radius spécifique",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nom d'utilisateur du Radius",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de l'utilisateur"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Supprime un utilisateur spécifique (radcheck) et ses radreply associées.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Supprimer un utilisateur Radius",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nom d'utilisateur du Radius à supprimer",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur supprimé avec succès"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
                     }
                 }
             }
@@ -150,6 +306,40 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "models.Radcheck": {
+            "type": "object",
+            "properties": {
+                "Options": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Radreply"
+                    }
+                },
+                "attribute": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Radreply": {
+            "type": "object",
+            "properties": {
+                "Attribute": {
+                    "type": "string"
+                },
+                "Value": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`
@@ -161,7 +351,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Radius API",
-	Description:      "API Freeradius pour la gestion des utilisateurs et des NAS",
+	Description:      "API for managing FreeRADIUS users and NAS devices",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

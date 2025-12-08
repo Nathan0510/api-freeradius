@@ -28,6 +28,6 @@ func DeleteNas(nasname string) error {
     return repository.DeleteNas(nasname)
 }
 
-func UpdateNas(nasname string, updates *models.NewNas) error {
+func UpdateNas(nasname string, updates *models.Nas) error {
     return repository.UpdateNas(nasname, updates.Shortname, updates.Secret)
 }
