@@ -15,8 +15,7 @@ import (
 
 // @title Radius API
 // @version 1.0
-// @description API pour la gestion des utilisateurs et des NAS Radius.
-// @host 192.168.1.240:8080
+// @description API Freeradius pour la gestion des utilisateurs et des NAS
 // @BasePath /
 
 func main() {
@@ -39,8 +38,8 @@ func main() {
     }
 
     r := gin.Default()
-
-    url := ginSwagger.URL("http://192.168.1.240:8080/swagger/doc.json")
+    url := ginSwagger.URL("/swagger/doc.json")
+//    url := ginSwagger.URL("http://172.26.239.47:8080/swagger/doc.json")
     r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
     r.GET("/ping", controllers.Ping)

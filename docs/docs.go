@@ -47,6 +47,75 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/nas/{username}": {
+            "get": {
+                "description": "Afficher la configuration d'un NAS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Afficher un NAS",
+                "responses": {
+                    "200": {
+                        "description": "NAS récupérée avec succès",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Nas"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur interne",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Supprime un NAS existant à partir du nom d'utilisateur fourni",
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Supprime un NAS",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nom d'utilisateur du NAS",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message de succès\"  example(map[string]string{\"message\":\"Nas deleted successfully\"})",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Message d'erreur",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -88,11 +157,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "192.168.1.240:8080",
+	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Radius API",
-	Description:      "API pour la gestion des utilisateurs et des NAS Radius.",
+	Description:      "API Freeradius pour la gestion des utilisateurs et des NAS",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

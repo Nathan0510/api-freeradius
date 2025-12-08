@@ -1,12 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API pour la gestion des utilisateurs et des NAS Radius.",
+        "description": "API Freeradius pour la gestion des utilisateurs et des NAS",
         "title": "Radius API",
         "contact": {},
         "version": "1.0"
     },
-    "host": "192.168.1.240:8080",
     "basePath": "/",
     "paths": {
         "/nas": {
@@ -37,6 +36,75 @@
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/nas/{username}": {
+            "get": {
+                "description": "Afficher la configuration d'un NAS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Afficher un NAS",
+                "responses": {
+                    "200": {
+                        "description": "NAS récupérée avec succès",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Nas"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur interne",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Supprime un NAS existant à partir du nom d'utilisateur fourni",
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Supprime un NAS",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nom d'utilisateur du NAS",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message de succès\"  example(map[string]string{\"message\":\"Nas deleted successfully\"})",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Message d'erreur",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }

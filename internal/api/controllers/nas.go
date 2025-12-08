@@ -48,6 +48,15 @@ func GetAllNas(c *gin.Context) {
 }
 
 
+// GetNas godoc
+// @Summary Afficher un NAS
+// @Description Afficher la configuration d'un NAS
+// @Tags NAS
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.Nas "NAS récupérée avec succès"
+// @Failure 500 {object} map[string]interface{} "Erreur serveur interne"
+// @Router /nas/{username} [get]
 func GetNas(c *gin.Context) {
   nasname := c.Param("username")
   nas, err := app.GetNas(nasname)
@@ -58,6 +67,14 @@ func GetNas(c *gin.Context) {
   c.JSON(http.StatusOK, nas)
 }
 
+// DeleteNas supprime un NAS par son nom d'utilisateur
+// @Summary Supprime un NAS
+// @Description Supprime un NAS existant à partir du nom d'utilisateur fourni
+// @Tags NAS
+// @Param username path string true "Nom d'utilisateur du NAS"
+// @Success 200 {object} map[string]string "Message de succès"  example(map[string]string{"message":"Nas deleted successfully"})
+// @Failure 500 {object} map[string]string "Message d'erreur"
+// @Router /nas/{username} [delete]
 func DeleteNas(c *gin.Context) {
   nasname := c.Param("username")
   err := app.DeleteNas(nasname)

@@ -21,10 +21,9 @@ definitions:
       type:
         type: string
     type: object
-host: 192.168.1.240:8080
 info:
   contact: {}
-  description: API pour la gestion des utilisateurs et des NAS Radius.
+  description: API Freeradius pour la gestion des utilisateurs et des NAS
   title: Radius API
   version: "1.0"
 paths:
@@ -48,6 +47,53 @@ paths:
             additionalProperties: true
             type: object
       summary: Récupérer tous les NAS Radius
+      tags:
+      - NAS
+  /nas/{username}:
+    delete:
+      description: Supprime un NAS existant à partir du nom d'utilisateur fourni
+      parameters:
+      - description: Nom d'utilisateur du NAS
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Message de succès"  example(map[string]string{"message":"Nas
+            deleted successfully"})
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Message d'erreur
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Supprime un NAS
+      tags:
+      - NAS
+    get:
+      consumes:
+      - application/json
+      description: Afficher la configuration d'un NAS
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: NAS récupérée avec succès
+          schema:
+            items:
+              $ref: '#/definitions/models.Nas'
+            type: array
+        "500":
+          description: Erreur serveur interne
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Afficher un NAS
       tags:
       - NAS
 swagger: "2.0"
