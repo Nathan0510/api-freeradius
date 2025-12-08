@@ -11,28 +11,21 @@ import (
 
 func CreateUser(c *gin.Context){
 
-  var json models.User
+  var json models.Radcheck
 
   if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-  if err := app.CreateUserRadcheck(json.Username, json.Password); err != nil {
-    c.JSON(http.StatusOK, gin.H{
-      "message": "Erreur ajout radcheck user",
-    })
-  return
-  }
 
-  for _, o := range json.Options {
-    if err := app.CreateUserRadreply(json.Username, o.Attribute, o.Value); err != nil {
-      c.JSON(http.StatusOK, gin.H{
-        "message": "Erreur ajout radreply user",
-      })
-    return
+    if err := app.CreateFullUser(&json); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "message": "Erreur ajout user",
+            "error":   err.Error(),
+        })
+        return
     }
-  }
 
   c.JSON(http.StatusOK, gin.H{
     "message": "Utilisateur"  + json.Username + " bien ajouté",

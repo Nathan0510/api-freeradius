@@ -15,7 +15,7 @@ func CreateRadreply(entry *models.Radreply) error {
 }
 
 func CreateFullUser(entry *models.Radcheck) error {
-    return db.DB.Create(entry).Error 
+    return db.DB.Create(entry).Error
 }
 
 func UpdateRadreply(username, attribute, value string) error {

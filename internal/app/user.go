@@ -36,6 +36,11 @@ func UpdateUserRadreply(username, attribute, password string) error {
 }
 
 func CreateFullUser(user *models.Radcheck) error {
+    user.Op = ":="
+    for i := range user.Options {
+        user.Options[i].Username = user.Username
+        user.Options[i].Op = ":="
+    }
     return repository.CreateFullUser(user)
 }
 
