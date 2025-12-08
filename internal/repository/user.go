@@ -6,25 +6,8 @@ import (
     "api-freeradius/models"
 )
 
-func CreateRadcheck(entry *models.Radcheck) error {
+func CreateUser(entry *models.Radcheck) error {
     return db.DB.Create(entry).Error
-}
-
-func CreateRadreply(entry *models.Radreply) error {
-    return db.DB.Create(entry).Error
-}
-
-func CreateFullUser(entry *models.Radcheck) error {
-    return db.DB.Create(entry).Error
-}
-
-func UpdateRadreply(username, attribute, value string) error {
-    result := db.DB.
-        Model(&models.Radreply{}).
-        Where(&models.Radreply{Username: username, Attribute: attribute}).
-        Update("Value", value)
-
-    return result.Error
 }
 
 func GetAllUsers() ([]models.Radcheck, error) {
@@ -46,4 +29,37 @@ func DeleteUser(username string) error {
         }
         return tx.Where("username = ?", username).Delete(&models.Radreply{}).Error
     })
+}
+
+func UpdateUser(username string, updates *models.Radcheck) error {
+    return db.DB.Transaction(func(tx *gorm.DB) error {
+        if updates.Attribute != "" && updates.Value != "" {
+            if err := tx.Model(&models.Radcheck{}).Where("username = ?", username).Updates(map[string]interface{}{
+                "Attribute": updates.Attribute,
+                "Value":     updates.Value,
+            }).Error; err != nil {
+                return err
+            }
+        }
+
+        if len(updates.Options) > 0 {
+            
+            newReplies := make([]models.Radreply, len(updates.Options))
+            for i, option := range updates.Options {
+                newReplies[i] = option
+                newReplies[i].Username = username
+                newReplies[i].Op = ":="
+            }
+
+            if err := tx.Create(&newReplies).Error; err != nil {
+                return err
+            }
+        }
+
+        return nil
+    })
+}
+
+func DeleteUserOption(username, attribute, value string) error {
+    return db.DB.Where("username = ? AND attribute = ? AND value = ?", username, attribute, value,).Delete(&models.Radreply{}).Error
 }

@@ -28,7 +28,7 @@ func CreateUser(c *gin.Context){
 	}
 
 
-    if err := app.CreateFullUser(&json); err != nil {
+    if err := app.CreateUser(&json); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{
             "message": "Erreur ajout user",
             "error":   err.Error(),
@@ -93,4 +93,37 @@ func DeleteUser(c *gin.Context) {
     return
   }
   c.JSON(http.StatusOK, gin.H{"message": "User " + username + " deleted successfully"})
+}
+
+func UpdateUser(c *gin.Context) {
+    username := c.Param("username")
+    var json models.Radcheck
+
+    if err := c.ShouldBindJSON(&json); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    if err := app.UpdateUser(username, &json); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "User " + username + " updated successfully"})
+}
+
+func DeleteUserOption(c *gin.Context) {
+  username := c.Param("username")
+  var json models.Radreply
+
+  if err := c.ShouldBindJSON(&json); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
+
+  if err := app.DeleteUserOption(username, json.Attribute, json.Value); err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
+    c.JSON(http.StatusOK, gin.H{"message": "Option " + json.Attribute +  "value " + json.Value + "user " + username + " deleted successfully"})
 }

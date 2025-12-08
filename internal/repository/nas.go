@@ -22,8 +22,7 @@ func GetNas(nasname string) (*models.Nas, error) {
 }
 
 func DeleteNas(nasname string) error {
-    result := db.DB.Where("nasname = ?", nasname).Delete(&models.Nas{})
-    return result.Error
+    return db.DB.Where("nasname = ?", nasname).Delete(&models.Nas{}).Error
 }
 
 func UpdateNas(nasname string, shortname string, secret string) error {

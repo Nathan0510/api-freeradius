@@ -5,13 +5,13 @@ import (
     "api-freeradius/internal/repository"
 )
 
-func CreateFullUser(user *models.Radcheck) error {
+func CreateUser(user *models.Radcheck) error {
     user.Op = ":="
     for i := range user.Options {
         user.Options[i].Username = user.Username
         user.Options[i].Op = ":="
     }
-    return repository.CreateFullUser(user)
+    return repository.CreateUser(user)
 }
 
 func GetAllUsers() ([]models.Radcheck, error) {
@@ -26,7 +26,10 @@ func DeleteUser(username string) error {
     return repository.DeleteUser(username)
 }  
 
-func UpdateUserRadreply(username, attribute, password string) error {
+func UpdateUser(username string, updates *models.Radcheck) error {
+    return repository.UpdateUser(username, updates)
+}
 
-    return repository.UpdateRadreply(username,attribute,password)
+func DeleteUserOption(username, attribute, value string) error {
+    return repository.DeleteUserOption(username, attribute, value)
 }
