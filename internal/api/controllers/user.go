@@ -16,7 +16,7 @@ import (
 // @Produce  json
 // @Param user body models.Radcheck true "New Radius user data"
 // @Success 200 "User added successfully"
-// @Failure 400 "Erreur ajout user"
+// @Failure 500 "Error"
 // @Router /users [post]
 func CreateUser(c *gin.Context){
 
@@ -40,13 +40,13 @@ func CreateUser(c *gin.Context){
 
 }
 
-// @Summary Récupérer tous les utilisateurs Radius
-// @Description Récupère la liste complète des utilisateurs (radcheck) avec leurs radreply associées.
+// @Summary Get all radius users
+// @Description Get all radius users
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Success 200 "Liste des utilisateurs complète"
-// @Failure 500 "Erreur interne du serveur"
+// @Success 200 "List of all user"
+// @Failure 500 "Error"
 // @Router /users [get]
 func GetAllUsers(c *gin.Context) {
   users, err := app.GetAllUsers()
@@ -57,14 +57,14 @@ func GetAllUsers(c *gin.Context) {
   c.JSON(http.StatusOK, users)
 }
 
-// @Summary Récupérer un utilisateur Radius spécifique
-// @Description Récupère les détails d'un utilisateur spécifique (radcheck) avec ses radreply associées.
-// @Tags users 
+// @Summary Get specific radius user
+// @Description Get specific radius user
+// @Tags users
 // @Accept  json
 // @Produce  json
 // @Param username path string true "Nom d'utilisateur du Radius"
-// @Success 200 "Détails de l'utilisateur"
-// @Failure 500 "Erreur interne du serveur"
+// @Success 200 ""
+// @Failure 500 "Error"
 // @Router /users/{username} [get]
 func GetUser(c *gin.Context) {
   username := c.Param("username")
@@ -76,14 +76,14 @@ func GetUser(c *gin.Context) {
   c.JSON(http.StatusOK, user)
 }
 
-// @Summary Supprimer un utilisateur Radius
-// @Description Supprime un utilisateur spécifique (radcheck) et ses radreply associées.
+// @Summary Delete radius user
+// @Description Delete radius user
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param username path string true "Nom d'utilisateur du Radius à supprimer"
-// @Success 200 "Utilisateur supprimé avec succès"
-// @Failure 500 "Erreur interne du serveur"
+// @Param username path string true "Username of radius user"
+// @Success 200 "User deleted successfully"
+// @Failure 500 "Error"
 // @Router /users/{username} [delete]
 func DeleteUser(c *gin.Context) {
   username := c.Param("username")
@@ -95,6 +95,15 @@ func DeleteUser(c *gin.Context) {
   c.JSON(http.StatusOK, gin.H{"message": "User " + username + " deleted successfully"})
 }
 
+// @Summary Update radius user
+// @Description Update radius user
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param username path string true "Username of radius user"
+// @Success 200 "User uptaded successfully"
+// @Failure 500 "Error"
+// @Router /users/{username} [patch]
 func UpdateUser(c *gin.Context) {
     username := c.Param("username")
     var json models.Radcheck
@@ -112,6 +121,15 @@ func UpdateUser(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"message": "User " + username + " updated successfully"})
 }
 
+// @Summary Delete option of radius user
+// @Description Delete option of radius user
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param username path string true "Username of radius user"
+// @Success 200 "Option user deleted successfully"
+// @Failure 500 "Error"
+// @Router /users/option/{username} [delete]
 func DeleteUserOption(c *gin.Context) {
   username := c.Param("username")
   var json models.Radreply
