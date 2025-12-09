@@ -116,7 +116,7 @@ paths:
       summary: Get a specific NAS
       tags:
       - NAS
-    put:
+    patch:
       consumes:
       - application/json
       description: Update a NAS
@@ -146,16 +146,15 @@ paths:
     get:
       consumes:
       - application/json
-      description: Récupère la liste complète des utilisateurs (radcheck) avec leurs
-        radreply associées.
+      description: Get all radius users
       produces:
       - application/json
       responses:
         "200":
-          description: Liste des utilisateurs complète
+          description: List of all user
         "500":
-          description: Erreur interne du serveur
-      summary: Récupérer tous les utilisateurs Radius
+          description: Error
+      summary: Get all radius users
       tags:
       - users
     post:
@@ -175,8 +174,8 @@ paths:
       responses:
         "200":
           description: User added successfully
-        "400":
-          description: Erreur ajout user
+        "500":
+          description: Error
       summary: Create a new Radius user
       tags:
       - users
@@ -184,9 +183,9 @@ paths:
     delete:
       consumes:
       - application/json
-      description: Supprime un utilisateur spécifique (radcheck) et ses radreply associées.
+      description: Delete radius user
       parameters:
-      - description: Nom d'utilisateur du Radius à supprimer
+      - description: Username of radius user
         in: path
         name: username
         required: true
@@ -195,17 +194,16 @@ paths:
       - application/json
       responses:
         "200":
-          description: Utilisateur supprimé avec succès
+          description: User deleted successfully
         "500":
-          description: Erreur interne du serveur
-      summary: Supprimer un utilisateur Radius
+          description: Error
+      summary: Delete radius user
       tags:
       - users
     get:
       consumes:
       - application/json
-      description: Récupère les détails d'un utilisateur spécifique (radcheck) avec
-        ses radreply associées.
+      description: Get specific radius user
       parameters:
       - description: Nom d'utilisateur du Radius
         in: path
@@ -216,10 +214,51 @@ paths:
       - application/json
       responses:
         "200":
-          description: Détails de l'utilisateur
+          description: ""
         "500":
-          description: Erreur interne du serveur
-      summary: Récupérer un utilisateur Radius spécifique
+          description: Error
+      summary: Get specific radius user
+      tags:
+      - users
+    patch:
+      consumes:
+      - application/json
+      description: Update radius user
+      parameters:
+      - description: Username of radius user
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User uptaded successfully
+        "500":
+          description: Error
+      summary: Update radius user
+      tags:
+      - users
+  /users/option/{username}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete option of radius user
+      parameters:
+      - description: Username of radius user
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Option user deleted successfully
+        "500":
+          description: Error
+      summary: Delete option of radius user
       tags:
       - users
 swagger: "2.0"

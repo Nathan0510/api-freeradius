@@ -103,7 +103,7 @@ func DeleteNas(c *gin.Context) {
 // @Param nas body models.Nas true "Data to update the NAS"
 // @Success 200 "Nas updated successfully"
 // @Failure 500 "Error"
-// @Router /nas/{username} [put]
+// @Router /nas/{username} [patch]
 func UpdateNas(c *gin.Context) {
   nasname := c.Param("username")
   var json models.Nas

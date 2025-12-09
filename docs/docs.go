@@ -92,7 +92,31 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
+            "delete": {
+                "description": "Delete NAS",
+                "tags": [
+                    "NAS"
+                ],
+                "summary": "Delete NAS",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nasname of the NAS to delete",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nas deleted successfully"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "patch": {
                 "description": "Update a NAS",
                 "consumes": [
                     "application/json"
@@ -130,35 +154,11 @@ const docTemplate = `{
                         "description": "Error"
                     }
                 }
-            },
-            "delete": {
-                "description": "Delete NAS",
-                "tags": [
-                    "NAS"
-                ],
-                "summary": "Delete NAS",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Nasname of the NAS to delete",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Nas deleted successfully"
-                    },
-                    "500": {
-                        "description": "Error"
-                    }
-                }
             }
         },
         "/users": {
             "get": {
-                "description": "Récupère la liste complète des utilisateurs (radcheck) avec leurs radreply associées.",
+                "description": "Get all radius users",
                 "consumes": [
                     "application/json"
                 ],
@@ -168,13 +168,13 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Récupérer tous les utilisateurs Radius",
+                "summary": "Get all radius users",
                 "responses": {
                     "200": {
-                        "description": "Liste des utilisateurs complète"
+                        "description": "List of all user"
                     },
                     "500": {
-                        "description": "Erreur interne du serveur"
+                        "description": "Error"
                     }
                 }
             },
@@ -205,15 +205,15 @@ const docTemplate = `{
                     "200": {
                         "description": "User added successfully"
                     },
-                    "400": {
-                        "description": "Erreur ajout user"
+                    "500": {
+                        "description": "Error"
                     }
                 }
             }
         },
-        "/users/{username}": {
-            "get": {
-                "description": "Récupère les détails d'un utilisateur spécifique (radcheck) avec ses radreply associées.",
+        "/users/option/{username}": {
+            "delete": {
+                "description": "Delete option of radius user",
                 "consumes": [
                     "application/json"
                 ],
@@ -223,7 +223,39 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Récupérer un utilisateur Radius spécifique",
+                "summary": "Delete option of radius user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username of radius user",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Option user deleted successfully"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/users/{username}": {
+            "get": {
+                "description": "Get specific radius user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get specific radius user",
                 "parameters": [
                     {
                         "type": "string",
@@ -235,15 +267,15 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Détails de l'utilisateur"
+                        "description": ""
                     },
                     "500": {
-                        "description": "Erreur interne du serveur"
+                        "description": "Error"
                     }
                 }
             },
             "delete": {
-                "description": "Supprime un utilisateur spécifique (radcheck) et ses radreply associées.",
+                "description": "Delete radius user",
                 "consumes": [
                     "application/json"
                 ],
@@ -253,11 +285,11 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Supprimer un utilisateur Radius",
+                "summary": "Delete radius user",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Nom d'utilisateur du Radius à supprimer",
+                        "description": "Username of radius user",
                         "name": "username",
                         "in": "path",
                         "required": true
@@ -265,10 +297,40 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Utilisateur supprimé avec succès"
+                        "description": "User deleted successfully"
                     },
                     "500": {
-                        "description": "Erreur interne du serveur"
+                        "description": "Error"
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update radius user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update radius user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username of radius user",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User uptaded successfully"
+                    },
+                    "500": {
+                        "description": "Error"
                     }
                 }
             }

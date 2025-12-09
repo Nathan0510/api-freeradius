@@ -43,7 +43,7 @@ func UpdateUser(username string, updates *models.Radcheck) error {
         }
 
         if len(updates.Options) > 0 {
-            
+
             newReplies := make([]models.Radreply, len(updates.Options))
             for i, option := range updates.Options {
                 newReplies[i] = option

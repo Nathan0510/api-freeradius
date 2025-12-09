@@ -24,7 +24,7 @@ func GetUser(username string) (*models.Radcheck, error) {
 
 func DeleteUser(username string) error {
     return repository.DeleteUser(username)
-}  
+}
 
 func UpdateUser(username string, updates *models.Radcheck) error {
     return repository.UpdateUser(username, updates)
