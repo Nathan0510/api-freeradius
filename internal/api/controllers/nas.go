@@ -83,7 +83,7 @@ func GetNas(c *gin.Context) {
 func DeleteNas(c *gin.Context) {
   nasname := c.Param("username")
   if err := app.DeleteNas(nasname); err != nil {
-    c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Nas " + json.Nasname + " not deleted successfully"})
+    c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Nas " + nasname + " not deleted successfully"})
     return
   }
   c.JSON(http.StatusOK, gin.H{"message": "Nas " + nasname + " deleted successfully"})
