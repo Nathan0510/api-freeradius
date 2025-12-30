@@ -2,32 +2,41 @@ package app
 
 import (
     "api-freeradius/models"
-    "api-freeradius/internal/repository"
+    "api-freeradius/db"
 )
 
 func CreateNas(nasname, shortname, secret string) error {
-
-    nas := models.Nas{
+    nas := &models.Nas{
         Nasname:  nasname,
         Shortname: shortname,
         Secret:     secret,
     }
 
-    return repository.CreateNas(&nas)
+    return db.DB.Create(nas).Error
 }
 
 func GetAllNas() ([]models.Nas, error) {
-    return repository.GetAllNas()
+    var nasList []models.Nas
+    err := db.DB.Find(&nasList).Error
+    return nasList, err
 }
 
 func GetNas(nasname string) (*models.Nas, error) {
-    return repository.GetNas(nasname)
+    var nas models.Nas
+    err := db.DB. Where("nasname = ?", nasname).First(&nas).Error
+    return &nas, err
 }
 
 func DeleteNas(nasname string) error {
-    return repository.DeleteNas(nasname)
+    return db.DB.Where("nasname = ?", nasname).Delete(&models.Nas{}).Error
 }
 
 func UpdateNas(nasname string, updates *models.Nas) error {
-    return repository.UpdateNas(nasname, updates.Shortname, updates.Secret)
+    result := db.DB.Model(&models.Nas{}).Where("nasname = ?", nasname).Updates(updates)
+
+    if result.Error != nil {
+        return result.Error
+    }
+
+    return nil
 }
