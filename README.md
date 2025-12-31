@@ -1,17 +1,18 @@
-# FreeRADIUS API (Golang)
+# Freeradius API (Golang)
 
-API développée en golang qui permet d'administrer un freeradius (utilisateurs/nas).
----
-
-## Fonctionnalités
-
-- Gestion des utilisateurs RADIUS
-- Gestion des nas RADIUS
-- Documentation Swagger / OpenAPI
+API developed in golang that allows you to administer a freeradius server (user and NAS management).
 
 ---
 
-## Technologies utilisées
+## Features
+
+- Radius user management
+- Radius NAS management
+- Swagger documentation
+
+---
+
+## Technologies used
 
 - Go
 - Gin Gonic
@@ -23,13 +24,23 @@ API développée en golang qui permet d'administrer un freeradius (utilisateurs/
 
 ## Configuration
 
-Edit cmd/api/.env and add your variable
+Edit .env file (cmd/api/.env)
+<pre>
+DB_HOST=localhost
+DB_USER=user
+DB_PASSWORD=password
+DB_NAME=radius
+DB_PORT=5432
+DB_SSLMODE=disable
+</pre>
 
 # Launch the API
 
+<pre>
 git clone https://github.com/naruto0510/api-freeradius.git
 go mod tidy
 go run cmd/api/main.go
+</pre>
 
 The API will be available with localhost:8080
 
