@@ -17,14 +17,12 @@ func CreateNas(nasname, shortname, secret string) error {
 
 func GetAllNas() ([]models.Nas, error) {
     var nasList []models.Nas
-    err := db.DB.Find(&nasList).Error
-    return nasList, err
+    return nasList, db.DB.Find(&nasList).Error
 }
 
 func GetNas(nasname string) (*models.Nas, error) {
     var nas models.Nas
-    err := db.DB. Where("nasname = ?", nasname).First(&nas).Error
-    return &nas, err
+    return &nas, db.DB. Where("nasname = ?", nasname).First(&nas).Error
 }
 
 func DeleteNas(nasname string) error {
@@ -32,11 +30,5 @@ func DeleteNas(nasname string) error {
 }
 
 func UpdateNas(nasname string, updates *models.Nas) error {
-    result := db.DB.Model(&models.Nas{}).Where("nasname = ?", nasname).Updates(updates)
-
-    if result.Error != nil {
-        return result.Error
-    }
-
-    return nil
+    return db.DB.Model(&models.Nas{}).Where("nasname = ?", nasname).Updates(updates).Error
 }

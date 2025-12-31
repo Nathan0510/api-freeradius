@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/nas": {
+        "/api/nas": {
             "get": {
                 "description": "Get all NAS",
                 "consumes": [
@@ -30,7 +30,7 @@ const docTemplate = `{
                 "summary": "Get all NAS",
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "List of all NAS"
                     },
                     "500": {
                         "description": "Error"
@@ -51,7 +51,7 @@ const docTemplate = `{
                 "summary": "Add NAS",
                 "parameters": [
                     {
-                        "description": "New NAS data",
+                        "description": "NAS data",
                         "name": "nas",
                         "in": "body",
                         "required": true,
@@ -65,12 +65,12 @@ const docTemplate = `{
                         "description": "NAS added successfully"
                     },
                     "500": {
-                        "description": "Failure insert data into dabasase"
+                        "description": "Error NAS not added successfully"
                     }
                 }
             }
         },
-        "/nas/{username}": {
+        "/api/nas/{username}": {
             "get": {
                 "description": "Get a specific NAS",
                 "consumes": [
@@ -83,9 +83,18 @@ const docTemplate = `{
                     "NAS"
                 ],
                 "summary": "Get a specific NAS",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nasname of the NAS",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "Data of the NAS"
                     },
                     "500": {
                         "description": "Error"
@@ -156,7 +165,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users": {
+        "/api/users": {
             "get": {
                 "description": "Get all radius users",
                 "consumes": [
@@ -211,7 +220,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/option/{username}": {
+        "/api/users/option/{username}": {
             "delete": {
                 "description": "Delete option of radius user",
                 "consumes": [
@@ -231,6 +240,15 @@ const docTemplate = `{
                         "name": "username",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Radius user option data",
+                        "name": "option",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Radreply"
+                        }
                     }
                 ],
                 "responses": {
@@ -243,7 +261,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{username}": {
+        "/api/users/{username}": {
             "get": {
                 "description": "Get specific radius user",
                 "consumes": [
@@ -259,7 +277,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Nom d'utilisateur du Radius",
+                        "description": "Username of radius user",
                         "name": "username",
                         "in": "path",
                         "required": true
@@ -323,6 +341,15 @@ const docTemplate = `{
                         "name": "username",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Radius user data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Radcheck"
+                        }
                     }
                 ],
                 "responses": {
@@ -372,23 +399,23 @@ const docTemplate = `{
         "models.Radcheck": {
             "type": "object",
             "properties": {
+                "Attribute": {
+                    "type": "string"
+                },
                 "Options": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Radreply"
                     }
                 },
-                "attribute": {
+                "Username": {
+                    "type": "string"
+                },
+                "Value": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
-                },
-                "username": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
                 }
             }
         },

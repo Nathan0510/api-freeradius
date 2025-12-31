@@ -23,18 +23,18 @@ definitions:
     type: object
   models.Radcheck:
     properties:
+      Attribute:
+        type: string
       Options:
         items:
           $ref: '#/definitions/models.Radreply'
         type: array
-      attribute:
+      Username:
+        type: string
+      Value:
         type: string
       id:
         type: integer
-      username:
-        type: string
-      value:
-        type: string
     type: object
   models.Radreply:
     properties:
@@ -49,7 +49,7 @@ info:
   title: Radius API
   version: "1.0"
 paths:
-  /nas:
+  /api/nas:
     get:
       consumes:
       - application/json
@@ -58,7 +58,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: ""
+          description: List of all NAS
         "500":
           description: Error
       summary: Get all NAS
@@ -69,7 +69,7 @@ paths:
       - application/json
       description: Add NAS
       parameters:
-      - description: New NAS data
+      - description: NAS data
         in: body
         name: nas
         required: true
@@ -81,11 +81,11 @@ paths:
         "200":
           description: NAS added successfully
         "500":
-          description: Failure insert data into dabasase
+          description: Error NAS not added successfully
       summary: Add NAS
       tags:
       - NAS
-  /nas/{username}:
+  /api/nas/{username}:
     delete:
       description: Delete NAS
       parameters:
@@ -106,11 +106,17 @@ paths:
       consumes:
       - application/json
       description: Get a specific NAS
+      parameters:
+      - description: Nasname of the NAS
+        in: path
+        name: username
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: ""
+          description: Data of the NAS
         "500":
           description: Error
       summary: Get a specific NAS
@@ -142,7 +148,7 @@ paths:
       summary: Update a NAS
       tags:
       - NAS
-  /users:
+  /api/users:
     get:
       consumes:
       - application/json
@@ -179,7 +185,7 @@ paths:
       summary: Create a new Radius user
       tags:
       - users
-  /users/{username}:
+  /api/users/{username}:
     delete:
       consumes:
       - application/json
@@ -205,7 +211,7 @@ paths:
       - application/json
       description: Get specific radius user
       parameters:
-      - description: Nom d'utilisateur du Radius
+      - description: Username of radius user
         in: path
         name: username
         required: true
@@ -230,6 +236,12 @@ paths:
         name: username
         required: true
         type: string
+      - description: Radius user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Radcheck'
       produces:
       - application/json
       responses:
@@ -240,7 +252,7 @@ paths:
       summary: Update radius user
       tags:
       - users
-  /users/option/{username}:
+  /api/users/option/{username}:
     delete:
       consumes:
       - application/json
@@ -251,6 +263,12 @@ paths:
         name: username
         required: true
         type: string
+      - description: Radius user option data
+        in: body
+        name: option
+        required: true
+        schema:
+          $ref: '#/definitions/models.Radreply'
       produces:
       - application/json
       responses:

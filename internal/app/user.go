@@ -17,14 +17,12 @@ func CreateUser(user *models.Radcheck) error {
 
 func GetAllUsers() ([]models.Radcheck, error) {
     var users []models.Radcheck
-    err := db.DB.Preload("Options").Find(&users).Error
-    return users, err
+    return users, db.DB.Preload("Options").Find(&users).Error
 }
 
 func GetUser(username string) (*models.Radcheck, error) {
     var user models.Radcheck
-    err := db.DB.Preload("Options").Where("username = ?", username).First(&user).Error
-    return &user, err
+    return &user, db.DB.Preload("Options").Where("username = ?", username).First(&user).Error
 }
 
 func DeleteUser(username string) error {
@@ -41,7 +39,6 @@ func DeleteUser(username string) error {
 
 func UpdateUser(username string, updates *models.Radcheck) error {
     return db.DB.Transaction(func(tx *gorm.DB) error {
-        // Update Radcheck si nécessaire
         if updates.Attribute != "" && updates.Value != "" {
             if err := tx.Model(&models.Radcheck{}).
                 Where("username = ?", username).
@@ -53,12 +50,10 @@ func UpdateUser(username string, updates *models.Radcheck) error {
             }
         }
 
-        // Update ou insert des options une par une
         for _, option := range updates.Options {
             option.Username = username
             option.Op = ":="
 
-            // Essaie de mettre à jour
             res := tx.Model(&models.Radreply{}).
                 Where("username = ? AND attribute = ?", username, option.Attribute).
                 Updates(map[string]interface{}{"value": option.Value})

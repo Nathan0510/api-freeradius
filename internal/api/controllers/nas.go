@@ -13,10 +13,10 @@ import (
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Param nas body models.Nas true "New NAS data"
+// @Param nas body models.Nas true "NAS data"
 // @Success 200 "NAS added successfully"
-// @Failure 500 "Failure insert data into dabasase"
-// @Router /nas [post]
+// @Failure 500 "Error NAS not added successfully"
+// @Router /api/nas [post]
 func CreateNas(c *gin.Context){
 
   var json models.Nas
@@ -40,9 +40,9 @@ func CreateNas(c *gin.Context){
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Success 200 ""
+// @Success 200 "List of all NAS"
 // @Failure 500 "Error"
-// @Router /nas [get]
+// @Router /api/nas [get]
 func GetAllNas(c *gin.Context) {
   nasList, err := app.GetAllNas()
   if err != nil {
@@ -59,9 +59,10 @@ func GetAllNas(c *gin.Context) {
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Success 200 ""
+// @Param username path string true "Nasname of the NAS"
+// @Success 200 "Data of the NAS"
 // @Failure 500 "Error"
-// @Router /nas/{username} [get]
+// @Router /api/nas/{username} [get]
 func GetNas(c *gin.Context) {
   nasname := c.Param("username")
   nas, err := app.GetNas(nasname)
@@ -79,7 +80,7 @@ func GetNas(c *gin.Context) {
 // @Param username path string true "Nasname of the NAS to delete"
 // @Success 200 "Nas deleted successfully"
 // @Failure 500 "Error"
-// @Router /nas/{username} [delete]
+// @Router /api/nas/{username} [delete]
 func DeleteNas(c *gin.Context) {
   nasname := c.Param("username")
   if err := app.DeleteNas(nasname); err != nil {
@@ -100,7 +101,7 @@ func DeleteNas(c *gin.Context) {
 // @Param nas body models.Nas true "Data to update the NAS"
 // @Success 200 "Nas updated successfully"
 // @Failure 500 "Error"
-// @Router /nas/{username} [patch]
+// @Router /api/nas/{username} [patch]
 func UpdateNas(c *gin.Context) {
   nasname := c.Param("username")
   var json models.Nas

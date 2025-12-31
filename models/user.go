@@ -2,10 +2,10 @@ package models
 
 type Radcheck struct {
     ID        int    `gorm:"primaryKey;autoIncrement"`
-    Username  string
-    Attribute string
+    Username  string `json:"Username"`
+    Attribute string `json:"Attribute"`
     Op        string `json:"-"`
-    Value     string
+    Value     string `json:"Value"`
     Options []Radreply `json:"Options" gorm:"foreignKey:Username;references:Username"`
 }
 

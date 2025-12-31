@@ -17,7 +17,7 @@ import (
 // @Param user body models.Radcheck true "New Radius user data"
 // @Success 200 "User added successfully"
 // @Failure 500 "Error"
-// @Router /users [post]
+// @Router /api/users [post]
 func CreateUser(c *gin.Context){
 
   var json models.Radcheck
@@ -47,7 +47,7 @@ func CreateUser(c *gin.Context){
 // @Produce  json
 // @Success 200 "List of all user"
 // @Failure 500 "Error"
-// @Router /users [get]
+// @Router /api/users [get]
 func GetAllUsers(c *gin.Context) {
   users, err := app.GetAllUsers()
   if err != nil {
@@ -62,10 +62,10 @@ func GetAllUsers(c *gin.Context) {
 // @Tags users
 // @Accept  json
 // @Produce  json
-// @Param username path string true "Nom d'utilisateur du Radius"
+// @Param username path string true "Username of radius user"
 // @Success 200 ""
 // @Failure 500 "Error"
-// @Router /users/{username} [get]
+// @Router /api/users/{username} [get]
 func GetUser(c *gin.Context) {
   username := c.Param("username")
   user, err := app.GetUser(username)
@@ -84,7 +84,7 @@ func GetUser(c *gin.Context) {
 // @Param username path string true "Username of radius user"
 // @Success 200 "User deleted successfully"
 // @Failure 500 "Error"
-// @Router /users/{username} [delete]
+// @Router /api/users/{username} [delete]
 func DeleteUser(c *gin.Context) {
   username := c.Param("username")
   err := app.DeleteUser(username)
@@ -101,9 +101,10 @@ func DeleteUser(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param username path string true "Username of radius user"
+// @Param user body models.Radcheck true "Radius user data"
 // @Success 200 "User uptaded successfully"
 // @Failure 500 "Error"
-// @Router /users/{username} [patch]
+// @Router /api/users/{username} [patch]
 func UpdateUser(c *gin.Context) {
     username := c.Param("username")
     var json models.Radcheck
@@ -127,9 +128,10 @@ func UpdateUser(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param username path string true "Username of radius user"
+// @Param option body models.Radreply true "Radius user option data"
 // @Success 200 "Option user deleted successfully"
 // @Failure 500 "Error"
-// @Router /users/option/{username} [delete]
+// @Router /api/users/option/{username} [delete]
 func DeleteUserOption(c *gin.Context) {
   username := c.Param("username")
   var json models.Radreply
@@ -143,5 +145,5 @@ func DeleteUserOption(c *gin.Context) {
     c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
     return
   }
-    c.JSON(http.StatusOK, gin.H{"message": "Option " + json.Attribute +  "value " + json.Value + "user " + username + " deleted successfully"})
+    c.JSON(http.StatusOK, gin.H{"message": "Option " + json.Attribute +  " value " + json.Value + " user " + username + " deleted successfully"})
 }
