@@ -1,67 +1,100 @@
-# api-freeradius
-# Titre du projet
-_(juste en dessous des badges sympatiques à placer)_
+# FreeRADIUS API (Golang)
 
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)  [![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
+API développée en golang qui permet d'administrer un freeradius (utilisateurs/nas).
+---
 
-Une petite description du projet
+## Fonctionnalités
 
-## Pour commencer
+- Gestion des utilisateurs RADIUS
+- Gestion des nas RADIUS
+- Documentation Swagger / OpenAPI
 
-Entrez ici les instructions pour bien débuter avec votre projet...
+---
 
-### Pré-requis
+## Technologies utilisées
 
-Ce qu'il est requis pour commencer avec votre projet...
+- Go
+- Gin Gonic
+- FreeRADIUS
+- PostgreSQL
+- Swagger
 
-- Programme 1
-- Programme 2
-- etc...
+---
 
-### Installation
+## Configuration
 
-Les étapes pour installer votre programme....
+Edit cmd/api/.env and add your variable
 
-Dites ce qu'il faut faire...
+# Launch the API
 
-_exemple_: Executez la commande ``telnet mapscii.me`` pour commencer ensuite [...]
+git clone https://github.com/naruto0510/api-freeradius.git
+go mod tidy
+go run cmd/api/main.go
+
+The API will be available with localhost:8080
+
+# Documentation Swagger
+
+Available at localhost:8080/swagger/index.html
+
+# Example API with curl
+
+For NAS :
+
+<pre>
+Post Nas :
+curl -X POST http://192.168.1.240:8080/api/nas -H "Content-Type: application/json" -d '{"nasname": "1.1.1.1","shortname": "LNS1","secret": "naruto"}'
+{"message":"Nas 1.1.1.1 added successfully"}
 
 
-Ensuite vous pouvez montrer ce que vous obtenez au final...
+Get all Nas :
+curl http://192.168.1.240:8080/api/nas
+[{"ID":14,"Nasname":"1.1.1.1","Shortname":"LNS1","Secret":"naruto","Type":"","Ports":0,"Server":"","Community":"","Description":""},{"ID":15,"Nasname":"2.2.2.2","Shortname":"LNS2","Secret":"naruto","Type":"","Ports":0,"Server":"","Community":"","Description":""}]
 
-## Démarrage
 
-Dites comment faire pour lancer votre projet
+Get Nas :
+curl http://192.168.1.240:8080/api/nas/1.1.1.1
+{"ID":14,"Nasname":"1.1.1.1","Shortname":"LNS1","Secret":"naruto","Type":"","Ports":0,"Server":"","Community":"","Description":""}
 
-## Fabriqué avec
 
-Entrez les programmes/logiciels/ressources que vous avez utilisé pour développer votre projet
+Patch Nas :
+curl -X PATCH http://192.168.1.240:8080/api/nas/1.1.1.1 -H "Content-Type: application/json" -d '{"secret": "sasuke"}'
+{"message":"Nas 1.1.1.1 updated successfully"}
 
-_exemples :_
-* [Materialize.css](http://materializecss.com) - Framework CSS (front-end)
-* [Atom](https://atom.io/) - Editeur de textes
 
-## Contributing
+Delete Nas :
+curl -X DELETE http://192.168.1.240:8080/api/nas/1.1.1.1
+{"message":"Nas 1.1.1.1 deleted successfully"}
+</pre>
 
-Si vous souhaitez contribuer, lisez le fichier [CONTRIBUTING.md](https://example.org) pour savoir comment le faire.
+For Users :
+<pre>
+Post user :
+curl -X POST http://192.168.1.240:8080/api/users -H "Content-Type: application/json" -d '{"Username":"naruto@naruto.ninja","Attribute": "Cleartext-Password","Value":"beaugoss","Options":[{"Attribute": "Framed-IP-Address","Value": "100.127.0.1"},{"Attribute": "Profile-Mikrotik","Value": "Profile-Internet"}]}'
+{"message":"User naruto@naruto.ninja added successfully"}
 
-## Versions
-Listez les versions ici 
-_exemple :_
-**Dernière version stable :** 5.0
-**Dernière version :** 5.1
-Liste des versions : [Cliquer pour afficher](https://github.com/your/project-name/tags)
-_(pour le lien mettez simplement l'URL de votre projets suivi de ``/tags``)_
 
-## Auteurs
-Listez le(s) auteur(s) du projet ici !
-* **Jhon doe** _alias_ [@outout14](https://github.com/outout14)
+Get all user :
+[{"ID":1,"Username":"minato@naruto.ninja","Attribute":"Cleartext-Password","Value":"surcote","Options":[]},{"ID":2,"Username":"naruto@naruto.ninja","Attribute":"Cleartext-Password","Value":"beaugoss","Options":[{"Attribute":"Framed-IP-Address","Value":"100.127.0.1"},{"Attribute":"Mikrotik-Group","Value":"Profile-Internet"}]}]
 
-Lisez la liste des [contributeurs](https://github.com/your/project/contributors) pour voir qui à aidé au projet !
 
-_(pour le lien mettez simplement l'URL de votre projet suivi de ``/contirubors``)_
+Get user :
+curl http://192.168.1.240:8080/api/users/naruto@naruto.ninja
+{"ID":27,"Username":"naruto@naruto.ninja","Attribute":"Cleartext-Password","Value":"sasuke2","Options":[{"Attribute":"Framed-IP-Address","Value":"100.64.0.10"},{"Attribute":"Framed-IP-Address","Value":"100.127.0.1"},{"Attribute":"Profile-Mikrotik","Value":"Profile-Internet"},{"Attribute":"Profile-Mikrotik","Value":"Profile-Internet"}]}
 
-## License
 
-Ce projet est sous licence ``exemple: WTFTPL`` - voir le fichier [LICENSE.md](LICENSE.md) pour plus d'informations
+Patch user :
+curl -X PATCH http://192.168.1.240:8080/api/users/naruto@naruto.ninja -H "Content-Type: application/json" -d '{"Options":[{"Attribute": "Framed-IP-Address","Value": "100.127.0.10"}]}'                                     {"message":"User naruto@naruto.ninja updated successfully"}
 
+
+Delete option user :
+curl -X DELETE http://192.168.1.240:8080/api/users/option/naruto@naruto.ninja -H "Content-Type: application/json" -d '{"Attribute": "Framed-IP-Address","Value": "100.127.0.10"}'
+{"message":"Option Framed-IP-Address value 100.127.0.10 user naruto@naruto.ninja deleted successfully"}
+
+
+Delete user :
+curl -X DELETE http://192.168.1.240:8080/api/users/naruto@naruto.ninja
+{"message":"User naruto@naruto.ninja deleted successfully"}
+</pre>
+
+Enjoy !
