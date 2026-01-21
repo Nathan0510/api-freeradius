@@ -38,6 +38,7 @@ DB_SSLMODE=disable
 
 <pre>
 git clone https://github.com/Nathan0510/api-freeradius.git
+cd api-freeradius/
 go mod tidy
 go run cmd/api/main.go
 </pre>
