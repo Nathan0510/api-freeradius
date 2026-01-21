@@ -87,7 +87,7 @@ curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json"
 
 
 Get all user :
-curl http://localhost:8080/api/users/naruto@narut
+curl http://localhost:8080/api/users
 [{"ID":1,"Username":"minato@naruto.ninja","Attribute":"Cleartext-Password","Value":"surcote","Options":[]},{"ID":2,"Username":"naruto@naruto.ninja","Attribute":"Cleartext-Password","Value":"beaugoss","Options":[{"Attribute":"Framed-IP-Address","Value":"100.127.0.1"},{"Attribute":"Mikrotik-Group","Value":"Profile-Internet"}]}]
 
 
