@@ -27,14 +27,10 @@ func CreateUser(c *gin.Context){
 		return
 	}
 
-
-    if err := app.CreateUser(&json); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{
-            "message": "Erreur ajout user",
-            "error":   err.Error(),
-        })
-        return
-    }
+  if err := app.CreateUser(&json); err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
 
   c.JSON(http.StatusOK, gin.H{"message": "User "  + json.Username + " added successfully"})
 

@@ -40,12 +40,7 @@ func DeleteUser(username string) error {
 func UpdateUser(username string, updates *models.Radcheck) error {
     return db.DB.Transaction(func(tx *gorm.DB) error {
         if updates.Attribute != "" && updates.Value != "" {
-            if err := tx.Model(&models.Radcheck{}).
-                Where("username = ?", username).
-                Updates(map[string]interface{}{
-                    "Attribute": updates.Attribute,
-                    "Value":     updates.Value,
-                }).Error; err != nil {
+            if err := tx.Model(&models.Radcheck{}).Where("username = ?", username).Updates(map[string]interface{}{"Attribute": updates.Attribute,"Value": updates.Value}).Error; err != nil {
                 return err
             }
         }
@@ -53,16 +48,12 @@ func UpdateUser(username string, updates *models.Radcheck) error {
         for _, option := range updates.Options {
             option.Username = username
             option.Op = ":="
-
-            res := tx.Model(&models.Radreply{}).
-                Where("username = ? AND attribute = ?", username, option.Attribute).
-                Updates(map[string]interface{}{"value": option.Value})
+            res := tx.Model(&models.Radreply{}).Where("username = ? AND attribute = ?", username, option.Attribute).Updates(map[string]interface{}{"value": option.Value})
 
             if res.Error != nil {
                 return res.Error
             }
         }
-
         return nil
     })
 }

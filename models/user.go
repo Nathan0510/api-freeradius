@@ -14,7 +14,7 @@ func (Radcheck) TableName() string {
 }
 
 type Radreply struct {
-    ID        uint   `gorm:"primaryKey" json:"-"` 
+    ID        uint   `gorm:"primaryKey"`
     Username  string `json:"-"`
     Attribute string `json:"Attribute"`
     Op        string `json:"-"`

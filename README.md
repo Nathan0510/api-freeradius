@@ -51,7 +51,6 @@ Available at localhost:8080/swagger/index.html
 # Example API with curl
 
 For NAS :
-
 <pre>
 Post Nas :
 curl -X POST http://192.168.1.240:8080/api/nas -H "Content-Type: application/json" -d '{"nasname": "1.1.1.1","shortname": "LNS1","secret": "naruto"}'
@@ -86,6 +85,7 @@ curl -X POST http://192.168.1.240:8080/api/users -H "Content-Type: application/j
 
 
 Get all user :
+curl http://192.168.1.240:8080/api/users/naruto@narut
 [{"ID":1,"Username":"minato@naruto.ninja","Attribute":"Cleartext-Password","Value":"surcote","Options":[]},{"ID":2,"Username":"naruto@naruto.ninja","Attribute":"Cleartext-Password","Value":"beaugoss","Options":[{"Attribute":"Framed-IP-Address","Value":"100.127.0.1"},{"Attribute":"Mikrotik-Group","Value":"Profile-Internet"}]}]
 
 
@@ -95,7 +95,8 @@ curl http://192.168.1.240:8080/api/users/naruto@naruto.ninja
 
 
 Patch user :
-curl -X PATCH http://192.168.1.240:8080/api/users/naruto@naruto.ninja -H "Content-Type: application/json" -d '{"Options":[{"Attribute": "Framed-IP-Address","Value": "100.127.0.10"}]}'                                     {"message":"User naruto@naruto.ninja updated successfully"}
+curl -X PATCH http://192.168.1.240:8080/api/users/naruto@naruto.ninja -H "Content-Type: application/json" -d '{"Options":[{"Attribute": "Framed-IP-Address","Value": "100.127.0.10"}]}'
+{"message":"User naruto@naruto.ninja updated successfully"}
 
 
 Delete option user :
