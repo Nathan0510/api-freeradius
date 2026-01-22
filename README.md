@@ -43,7 +43,7 @@ go mod tidy
 go run cmd/api/main.go
 </pre>
 
-The API will be available with localhost:8080
+The API will be available with localhost:8080/api
 
 # Documentation Swagger
 
