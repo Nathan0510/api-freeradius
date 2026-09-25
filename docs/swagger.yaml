@@ -2,34 +2,49 @@ basePath: /
 definitions:
   models.Nas:
     properties:
-      community:
+      Community:
         type: string
-      description:
+      Description:
+        type: string
+      Ports:
+        type: integer
+      Secret:
+        type: string
+      Server:
+        type: string
+      Shortname:
+        type: string
+      Type:
+        type: string
+      Username:
         type: string
       id:
         type: integer
-      nasname:
-        type: string
-      ports:
-        type: integer
-      secret:
-        type: string
-      server:
-        type: string
-      shortname:
-        type: string
-      type:
-        type: string
     type: object
   models.Radcheck:
     properties:
       Attribute:
         type: string
+      Groups:
+        items:
+          $ref: '#/definitions/models.Radusergroup'
+        type: array
       Options:
         items:
           $ref: '#/definitions/models.Radreply'
         type: array
       Username:
+        type: string
+      Value:
+        type: string
+      id:
+        type: integer
+    type: object
+  models.Radgroupreply:
+    properties:
+      Attribute:
+        type: string
+      Groupname:
         type: string
       Value:
         type: string
@@ -42,6 +57,17 @@ definitions:
         type: string
       Value:
         type: string
+      id:
+        type: integer
+    type: object
+  models.Radusergroup:
+    properties:
+      Groupname:
+        type: string
+      Priority:
+        type: integer
+      id:
+        type: integer
     type: object
 info:
   contact: {}
@@ -49,6 +75,105 @@ info:
   title: Radius API
   version: "1.0"
 paths:
+  /api/group:
+    get:
+      consumes:
+      - application/json
+      description: Get all Group
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of all Group
+        "500":
+          description: Error
+      summary: Get all Group
+      tags:
+      - Group
+    post:
+      consumes:
+      - application/json
+      description: Add Group
+      parameters:
+      - description: Group data
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/models.Radgroupreply'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Group added successfully
+        "500":
+          description: Error Group not added successfully
+      summary: Add Group
+      tags:
+      - Group
+  /api/group/{groupname}:
+    delete:
+      description: Delete Group
+      parameters:
+      - description: Groupname of the group to delete
+        in: path
+        name: groupname
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Group deleted successfully
+        "500":
+          description: Error
+      summary: Delete Group
+      tags:
+      - Group
+    get:
+      consumes:
+      - application/json
+      description: Get a specific Group
+      parameters:
+      - description: Groupname of the Group
+        in: path
+        name: groupname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data of the Group
+        "500":
+          description: Error
+      summary: Get a specific Group
+      tags:
+      - Group
+    patch:
+      consumes:
+      - application/json
+      description: Update a Group
+      parameters:
+      - description: Groupname of the Group to update
+        in: path
+        name: groupname
+        required: true
+        type: string
+      - description: Data to update the Group
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/models.Radgroupreply'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Group updated successfully
+        "500":
+          description: Error
+      summary: Update a Group
+      tags:
+      - Group
   /api/nas:
     get:
       consumes:

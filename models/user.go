@@ -6,7 +6,8 @@ type Radcheck struct {
     Attribute string `json:"Attribute"`
     Op        string `json:"-"`
     Value     string `json:"Value"`
-    Options []Radreply `json:"Options" gorm:"foreignKey:Username;references:Username"`
+    Options   []Radreply `json:"Options" gorm:"foreignKey:Username;references:Username"`
+    Groups    []Radusergroup `json:"Groups" gorm:"foreignKey:Username;references:Username"`
 }
 
 func (Radcheck) TableName() string {

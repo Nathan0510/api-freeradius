@@ -20,5 +20,10 @@ func SetupRouter(r *gin.Engine){
 		api.GET("/nas/:username", controllers.GetNas)
 		api.DELETE("/nas/:username", controllers.DeleteNas)
 		api.PATCH("/nas/:username", controllers.UpdateNas)
+		api.POST("/group", controllers.CreateGroup)
+		api.GET("/group", controllers.GetAllGroup)
+		api.GET("/group/:groupname", controllers.GetGroup)
+		api.DELETE("/group/:groupname", controllers.DeleteGroup)
+		api.PATCH("/group/:groupname", controllers.UpdateGroup)
 	}
 }

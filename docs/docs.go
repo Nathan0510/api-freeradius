@@ -15,6 +15,156 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/group": {
+            "get": {
+                "description": "Get all Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Get all Group",
+                "responses": {
+                    "200": {
+                        "description": "List of all Group"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Add Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Add Group",
+                "parameters": [
+                    {
+                        "description": "Group data",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Radgroupreply"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group added successfully"
+                    },
+                    "500": {
+                        "description": "Error Group not added successfully"
+                    }
+                }
+            }
+        },
+        "/api/group/{groupname}": {
+            "get": {
+                "description": "Get a specific Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Get a specific Group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Groupname of the Group",
+                        "name": "groupname",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data of the Group"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Group",
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Delete Group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Groupname of the group to delete",
+                        "name": "groupname",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group deleted successfully"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update a Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Update a Group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Groupname of the Group to update",
+                        "name": "groupname",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Data to update the Group",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Radgroupreply"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group updated successfully"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
         "/api/nas": {
             "get": {
                 "description": "Get all NAS",
@@ -367,32 +517,32 @@ const docTemplate = `{
         "models.Nas": {
             "type": "object",
             "properties": {
-                "community": {
+                "Community": {
                     "type": "string"
                 },
-                "description": {
+                "Description": {
+                    "type": "string"
+                },
+                "Ports": {
+                    "type": "integer"
+                },
+                "Secret": {
+                    "type": "string"
+                },
+                "Server": {
+                    "type": "string"
+                },
+                "Shortname": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "Username": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
-                },
-                "nasname": {
-                    "type": "string"
-                },
-                "ports": {
-                    "type": "integer"
-                },
-                "secret": {
-                    "type": "string"
-                },
-                "server": {
-                    "type": "string"
-                },
-                "shortname": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
                 }
             }
         },
@@ -401,6 +551,12 @@ const docTemplate = `{
             "properties": {
                 "Attribute": {
                     "type": "string"
+                },
+                "Groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Radusergroup"
+                    }
                 },
                 "Options": {
                     "type": "array",
@@ -419,6 +575,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Radgroupreply": {
+            "type": "object",
+            "properties": {
+                "Attribute": {
+                    "type": "string"
+                },
+                "Groupname": {
+                    "type": "string"
+                },
+                "Value": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Radreply": {
             "type": "object",
             "properties": {
@@ -427,6 +600,23 @@ const docTemplate = `{
                 },
                 "Value": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Radusergroup": {
+            "type": "object",
+            "properties": {
+                "Groupname": {
+                    "type": "string"
+                },
+                "Priority": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
                 }
             }
         }
