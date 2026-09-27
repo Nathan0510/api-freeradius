@@ -26,8 +26,26 @@ jobs:
         run: |
           ls ${{ gitea.workspace }}
       - name: Deploy
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_SSLMODE: ${{ secrets.DB_SSLMODE }}
         run: |
           sudo cp radius-api /opt/radius-api/radius-api
           sudo chown radius-api:radius-api /opt/radius-api/radius-api
+          sudo tee /etc/radius-api.env > /dev/null << EOF
+          DB_HOST=$DB_HOST
+          DB_PORT=$DB_PORT
+          DB_NAME=$DB_NAME
+          DB_USER=$DB_USER
+          DB_PASSWORD=$DB_PASSWORD
+          DB_SSLMODE=$DB_SSLMODE
+          EOF
+
+          sudo chmod 600 /etc/radius-api.env
+          sudo chown radius-api:radius-api /etc/radius-api.env 
           sudo systemctl restart radius-api
       - run: echo "🍏 This job's status is ${{ job.status }}."
