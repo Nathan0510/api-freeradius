@@ -1,5 +1,5 @@
 name: Gitea Actions Demo
-run-name: ${{ gitea.actor }} is testing out Gitea Actions 🚀
+run-name: ${{ gitea.actor }} triggered this workflow on ${{ gitea.event_name }} event
 on: [push]
 
 jobs:
