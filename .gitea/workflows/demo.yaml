@@ -34,7 +34,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_SSLMODE: ${{ secrets.DB_SSLMODE }}
         run: |
-          sudo cp radius-api /opt/radius-api/radius-api
+          sudo mv radius-api /opt/radius-api/radius-api
           sudo chown radius-api:radius-api /opt/radius-api/radius-api
           sudo tee /etc/radius-api.env > /dev/null << EOF
           DB_HOST=$DB_HOST
