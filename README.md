@@ -1,6 +1,6 @@
 # Freeradius API (Golang)
 
-API developed in golang that allows you to administer a freeradius server (user and NAS management).
+API developed in golang that allows you to administer a freeradius server (group, user and NAS management).
 
 ---
 
@@ -8,6 +8,7 @@ API developed in golang that allows you to administer a freeradius server (user 
 
 - Radius user management
 - Radius NAS management
+- Radius group management
 - Swagger documentation
 
 ---
