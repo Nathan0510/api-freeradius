@@ -44,8 +44,5 @@ jobs:
           DB_PASSWORD=$DB_PASSWORD
           DB_SSLMODE=$DB_SSLMODE
           EOF
-
-          sudo chmod 600 /etc/radius-api.env
-          sudo chown radius-api:radius-api /etc/radius-api.env 
           sudo systemctl restart radius-api
       - run: echo "🍏 This job's status is ${{ job.status }}."
