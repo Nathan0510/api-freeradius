@@ -102,20 +102,20 @@ func DeleteUser(c *gin.Context) {
 // @Failure 500 "Error"
 // @Router /api/users/{username} [patch]
 func UpdateUser(c *gin.Context) {
-    username := c.Param("username")
-    var json models.Radcheck
+  username := c.Param("username")
+  var json models.Radcheck
 
-    if err := c.ShouldBindJSON(&json); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
+  if err := c.ShouldBindJSON(&json); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
 
-    if err := app.UpdateUser(username, &json); err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-        return
-    }
+  if err := app.UpdateUser(username, &json); err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
 
-    c.JSON(http.StatusOK, gin.H{"message": "User " + username + " updated successfully"})
+  c.JSON(http.StatusOK, gin.H{"message": "User " + username + " updated successfully"})
 }
 
 // @Summary Delete option of radius user
@@ -134,11 +134,7 @@ func DeleteUserOption(c *gin.Context) {
   value := c.Query("value")
 
   if value == "" {
-      c.JSON(http.StatusBadRequest, gin.H{"error": "Value is required as query parameter"})
-      return
-  }
-  if err := c.ShouldBindJSON(&json); err != nil {
-    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    c.JSON(http.StatusBadRequest, gin.H{"error": "Value is required as query parameter"})
     return
   }
 
@@ -146,5 +142,5 @@ func DeleteUserOption(c *gin.Context) {
     c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
     return
   }
-    c.JSON(http.StatusOK, gin.H{"message": "Option " + attribute +  " value " + value + " user " + username + " deleted successfully"})
+  c.JSON(http.StatusOK, gin.H{"message": "Option " + attribute +  " value " + value + " user " + username + " deleted successfully"})
 }
