@@ -1,6 +1,6 @@
 # Freeradius API (Golang)
 
-API developed in golang that allows you to administer a freeradius server (group, user and NAS management).
+API developed in golang that allows you to administer a freeradius server (group, user, NAS and accounting management).
 
 ---
 
@@ -112,4 +112,10 @@ curl -X DELETE http://localhost:8080/api/users/naruto@naruto.ninja
 {"message":"User naruto@naruto.ninja deleted successfully"}
 </pre>
 
+For Accounting :
+<pre>
+Get accounting of a username :
+curl -X GET curl -X GET http://localhost:8080/api/accounting/naruto@naruto.ninja
+[{"Username":"naruto@naruto.ninja","Nasipaddress":"192.168.10.98","Acctstarttime":"2026-09-28T18:26:44Z","Acctstoptime":"","Acctinputoctets":"2148","Acctoutputoctets":"182","Callingstationid":"52:54:00:e6:56:01","Acctterminatecause":""},{"Username":"naruto@naruto.ninja","Nasipaddress":"192.168.10.98","Acctstarttime":"2026-09-27T18:58:41Z","Acctstoptime":"2026-09-27T19:06:34Z","Acctinputoctets":"554168","Acctoutputoctets":"540582","Callingstationid":"52:54:00:68:fb:01","Acctterminatecause":"NAS-Error"}]
+</pre>
 Enjoy !

@@ -17,7 +17,7 @@ import (
 // @Param group body models.Radgroupreply true "Group data"
 // @Success 200 "Group added successfully"
 // @Failure 500 "Error Group not added successfully"
-// @Router /api/group [post]
+// @Router /api/groups [post]
 func CreateGroup(c *gin.Context){
 
   var json models.Radgroupreply
@@ -43,7 +43,7 @@ func CreateGroup(c *gin.Context){
 // @Produce json
 // @Success 200 "List of all Group"
 // @Failure 500 "Error"
-// @Router /api/group [get]
+// @Router /api/groups [get]
 func GetAllGroup(c *gin.Context) {
   groupList, err := app.GetAllGroup()
   if err != nil {
@@ -63,7 +63,7 @@ func GetAllGroup(c *gin.Context) {
 // @Param groupname path string true "Groupname of the Group"
 // @Success 200 "Data of the Group"
 // @Failure 500 "Error"
-// @Router /api/group/{groupname} [get]
+// @Router /api/groups/{groupname} [get]
 func GetGroup(c *gin.Context) {
   groupname := c.Param("groupname")
   group, err := app.GetGroup(groupname)
@@ -81,7 +81,7 @@ func GetGroup(c *gin.Context) {
 // @Param groupname path string true "Groupname of the group to delete"
 // @Success 200 "Group deleted successfully"
 // @Failure 500 "Error"
-// @Router /api/group/{groupname} [delete]
+// @Router /api/groups/{groupname} [delete]
 func DeleteGroup(c *gin.Context) {
   groupname := c.Param("groupname")
   fmt.Println(groupname)
@@ -103,7 +103,7 @@ func DeleteGroup(c *gin.Context) {
 // @Param group body models.Radgroupreply true "Data to update the Group"
 // @Success 200 "Group updated successfully"
 // @Failure 500 "Error"
-// @Router /api/group/{groupname} [patch]
+// @Router /api/groups/{groupname} [patch]
 func UpdateGroup(c *gin.Context) {
   groupname := c.Param("groupname")
   var json models.Radgroupreply

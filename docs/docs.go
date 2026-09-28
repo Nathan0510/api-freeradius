@@ -47,7 +47,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/group": {
+        "/api/groups": {
             "get": {
                 "description": "Get all Group",
                 "consumes": [
@@ -102,7 +102,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/group/{groupname}": {
+        "/api/groups/{groupname}": {
             "get": {
                 "description": "Get a specific Group",
                 "consumes": [
@@ -402,47 +402,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/users/option/{username}": {
-            "delete": {
-                "description": "Delete option of radius user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Delete option of radius user",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Username of radius user",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Radius user option data",
-                        "name": "option",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Radreply"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Option user deleted successfully"
-                    },
-                    "500": {
-                        "description": "Error"
-                    }
-                }
-            }
-        },
         "/api/users/{username}": {
             "get": {
                 "description": "Get specific radius user",
@@ -537,6 +496,47 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "User uptaded successfully"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/users/{username}/options/{optionname}": {
+            "delete": {
+                "description": "Delete option of radius user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete option of radius user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username of radius user",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Radius user option data",
+                        "name": "option",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Radreply"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Option user deleted successfully"
                     },
                     "500": {
                         "description": "Error"

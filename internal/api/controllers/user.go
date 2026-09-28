@@ -127,19 +127,24 @@ func UpdateUser(c *gin.Context) {
 // @Param option body models.Radreply true "Radius user option data"
 // @Success 200 "Option user deleted successfully"
 // @Failure 500 "Error"
-// @Router /api/users/option/{username} [delete]
+// @Router /api/users/{username}/options/{optionname} [delete]
 func DeleteUserOption(c *gin.Context) {
   username := c.Param("username")
-  var json models.Radreply
+  attribute := c.Param("optionname")
+  value := c.Query("value")
 
+  if value == "" {
+      c.JSON(http.StatusBadRequest, gin.H{"error": "Value is required as query parameter"})
+      return
+  }
   if err := c.ShouldBindJSON(&json); err != nil {
     c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
     return
   }
 
-  if err := app.DeleteUserOption(username, json.Attribute, json.Value); err != nil {
+  if err := app.DeleteUserOption(username, attribute, value); err != nil {
     c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
     return
   }
-    c.JSON(http.StatusOK, gin.H{"message": "Option " + json.Attribute +  " value " + json.Value + " user " + username + " deleted successfully"})
+    c.JSON(http.StatusOK, gin.H{"message": "Option " + attribute +  " value " + value + " user " + username + " deleted successfully"})
 }

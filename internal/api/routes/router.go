@@ -16,7 +16,7 @@ func SetupRouter(r *gin.Engine){
 			users.GET("/:username", controllers.GetUser)
 			users.DELETE("/:username", controllers.DeleteUser)
 			users.PATCH("/:username", controllers.UpdateUser)
-			users.DELETE("/option/:username", controllers.DeleteUserOption)
+			users.DELETE("/:username/options/:optionname", controllers.DeleteUserOption)
 		}
 		
 		nas := api.Group("/nas")

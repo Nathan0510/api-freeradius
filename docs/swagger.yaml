@@ -96,7 +96,7 @@ paths:
       summary: Get a specific accounting record
       tags:
       - Accounting
-  /api/group:
+  /api/groups:
     get:
       consumes:
       - application/json
@@ -132,7 +132,7 @@ paths:
       summary: Add Group
       tags:
       - Group
-  /api/group/{groupname}:
+  /api/groups/{groupname}:
     delete:
       description: Delete Group
       parameters:
@@ -398,7 +398,7 @@ paths:
       summary: Update radius user
       tags:
       - users
-  /api/users/option/{username}:
+  /api/users/{username}/options/{optionname}:
     delete:
       consumes:
       - application/json
