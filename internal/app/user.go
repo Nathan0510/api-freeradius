@@ -6,6 +6,10 @@ import (
     "gorm.io/gorm"
 )
 
+var (
+    ErrOptionNotFound = errors.New("option not found")
+)
+
 func CreateUser(user *models.Radcheck) error {
     user.Op = ":="
     for i := range user.Options {
