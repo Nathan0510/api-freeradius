@@ -3,7 +3,6 @@ package controllers
 import (
   "net/http"
   "github.com/gin-gonic/gin"
-  "api-freeradius/models"
   "api-freeradius/internal/app"
 )
 
