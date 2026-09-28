@@ -116,4 +116,3 @@ func UpdateNas(c *gin.Context) {
   }
   c.JSON(http.StatusOK, gin.H{"message": "Nas " + nasname + " updated successfully"})
 }
-s
