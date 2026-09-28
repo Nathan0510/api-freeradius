@@ -83,7 +83,7 @@ curl -X DELETE http://localhost:8080/api/nas/1.1.1.1
 For Users :
 <pre>
 Post user :
-curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json" -d '{"Username":"naruto@naruto.ninja","Attribute": "Cleartext-Password","Value":"beaugoss","Options":[{"Attribute": "Framed-IP-Address","Value": "100.127.0.1"},{"Attribute": "Profile-Mikrotik","Value": "Profile-Internet"}]}'
+curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json" -d '{"Username":"naruto@naruto.ninja","Attribute": "Cleartext-Password","Value":"beaugoss","Options":[{"Attribute": "Framed-IP-Address","Value": "100.127.0.1"},{"Attribute": "Profile-Mikrotik","Value": "Profile-Internet"}],"Groups":[{"Groupname":"Mikrotik-1G","Priority":1}]}'
 {"message":"User naruto@naruto.ninja added successfully"}
 
 
@@ -103,14 +103,38 @@ curl -X PATCH http://localhost:8080/api/users/naruto@naruto.ninja -H "Content-Ty
 
 
 Delete option user :
-curl -X DELETE http://localhost:8080/api/users/option/naruto@naruto.ninja -H "Content-Type: application/json" -d '{"Attribute": "Framed-IP-Address","Value": "100.127.0.10"}'s
+curl -X DELETE http://localhost:8080/api/users/naruto@naruto.ninja/options/Framed-IP-Address?value=100.127.0.10
 {"message":"Option Framed-IP-Address value 100.127.0.10 user naruto@naruto.ninja deleted successfully"}
-
 
 Delete user :
 curl -X DELETE http://localhost:8080/api/users/naruto@naruto.ninja
 {"message":"User naruto@naruto.ninja deleted successfully"}
 </pre>
+
+For Groups :
+
+<pre>
+Post group :
+curl -X POST http://192.168.1.241:8080/api/groups -H "Content-Type: application/json" -d '{"Groupname":"Mikrotik-500M","Attribute":"Mikrotik-Rate-Limit","Value":"500M/500M"}'
+{"message":"GroupMikrotik-500M added successfully"}
+
+Get all groups :
+curl -X GET http://192.168.1.241:8080/api/groups
+[{"ID":2,"Groupname":"Mikrotik-1G","Attribute":"Mikrotik-Rate-Limit","Value":"1G/1G"},{"ID":4,"Groupname":"Mikrotik-500M","Attribute":"Mikrotik-Rate-Limit","Value":"500M/500M"}]
+
+Get group :
+curl -X GET http://192.168.1.241:8080/api/groups/Mikrotik-500M
+{"ID":4,"Groupname":"Mikrotik-500M","Attribute":"Mikrotik-Rate-Limit","Value":"500M/500M"}
+
+Patch group :
+curl -X PATCH http://192.168.1.241:8080/api/groups/Mikrotik-500M -H "Content-Type: application/json" -d '{"Value":"50M/50M"}'
+{"message":"GroupMikrotik-500M updated successfully"}
+
+Delete group :
+curl -X DELETE http://192.168.1.241:8080/api/groups/Mikrotik-500M
+{"message":"Group Mikrotik-500M deleted successfully"}
+</pre>
+
 
 For Accounting :
 <pre>

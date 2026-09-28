@@ -58,5 +58,9 @@ func UpdateUser(username string, updates *models.Radcheck) error {
     })
 }
 func DeleteUserOption(username, attribute, value string) error {
-    return db.DB.Where("username = ? AND attribute = ? AND value = ?", username, attribute, value,).Delete(&models.Radreply{}).Error
+    res := db.DB.Where("username = ? AND attribute = ? AND value = ?", username, attribute, value).Delete(&models.Radreply{})
+    if res.Error == nil && res.RowsAffected == 0 {
+        return ErrOptionNotFound
+    }
+    return res.Error
 }
