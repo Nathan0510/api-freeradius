@@ -25,5 +25,6 @@ func SetupRouter(r *gin.Engine){
 		api.GET("/group/:groupname", controllers.GetGroup)
 		api.DELETE("/group/:groupname", controllers.DeleteGroup)
 		api.PATCH("/group/:groupname", controllers.UpdateGroup)
+		api.GET("/accounting/:username", controllers.GetAccounting)
 	}
 }
