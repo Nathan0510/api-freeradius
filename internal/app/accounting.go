@@ -6,7 +6,7 @@ import (
 )
 
 
-func GetAccounting(username string) (*models.Radacct, error) {
-    var radacct models.Radacct
-    return &radacct, db.DB. Where("username = ?", username).First(&radacct).Error
-}
+func GetAccounting(username string) ([]models.Radacct, error) {
+    var radacct []models.Radacct
+    return radacct, db.DB.Where("username = ?", username).Order("acctstarttime DESC").Find(&radacct).Error
+}	
