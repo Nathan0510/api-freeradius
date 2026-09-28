@@ -8,7 +8,7 @@ API developed in golang that allows you to administer a freeradius server (group
 
 - Radius user management
 - Radius NAS management
-- Radius group managemen
+- Radius group management
 - Swagger documentation
 
 ---
