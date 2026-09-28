@@ -1,7 +1,7 @@
 package models
 
 type Radacct struct {
-    ID        			 	int    `gorm:"primaryKey;autoIncrement"`
+//    ID        			 	int    `gorm:"primaryKey;autoIncrement"`
     Username 			 	string `json:"Username"`
     Nasipaddress 		 	string `json:"Nasipaddress"`
     Acctstarttime        	string `json:"Acctstarttime"`
