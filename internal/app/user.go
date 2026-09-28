@@ -4,6 +4,7 @@ import (
     "api-freeradius/models"
     "api-freeradius/db"
     "gorm.io/gorm"
+    "errors"
 )
 
 var (
