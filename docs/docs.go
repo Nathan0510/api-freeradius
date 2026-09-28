@@ -15,6 +15,38 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/accounting/{username}": {
+            "get": {
+                "description": "Get a specific accounting record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Accounting"
+                ],
+                "summary": "Get a specific accounting record",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username of the accounting record",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data of the accounting record"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
         "/api/group": {
             "get": {
                 "description": "Get all Group",
@@ -220,7 +252,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nas/{username}": {
+        "/api/nas/{nasname}": {
             "get": {
                 "description": "Get a specific NAS",
                 "consumes": [
@@ -237,7 +269,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Nasname of the NAS",
-                        "name": "username",
+                        "name": "nasname",
                         "in": "path",
                         "required": true
                     }
@@ -261,7 +293,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Nasname of the NAS to delete",
-                        "name": "username",
+                        "name": "nasname",
                         "in": "path",
                         "required": true
                     }
@@ -291,7 +323,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Nasname of the NAS to update",
-                        "name": "username",
+                        "name": "nasname",
                         "in": "path",
                         "required": true
                     },
