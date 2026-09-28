@@ -59,12 +59,12 @@ func GetAllNas(c *gin.Context) {
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Param username path string true "Nasname of the NAS"
+// @Param nasname path string true "Nasname of the NAS"
 // @Success 200 "Data of the NAS"
 // @Failure 500 "Error"
-// @Router /api/nas/{username} [get]
+// @Router /api/nas/{nasname} [get]
 func GetNas(c *gin.Context) {
-  nasname := c.Param("username")
+  nasname := c.Param("nasname")
   nas, err := app.GetNas(nasname)
   if err != nil {
     c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -77,12 +77,12 @@ func GetNas(c *gin.Context) {
 // @Summary Delete NAS
 // @Description Delete NAS
 // @Tags NAS
-// @Param username path string true "Nasname of the NAS to delete"
+// @Param nasname path string true "Nasname of the NAS to delete"
 // @Success 200 "Nas deleted successfully"
 // @Failure 500 "Error"
-// @Router /api/nas/{username} [delete]
+// @Router /api/nas/{nasname} [delete]
 func DeleteNas(c *gin.Context) {
-  nasname := c.Param("username")
+  nasname := c.Param("nasname")
   if err := app.DeleteNas(nasname); err != nil {
     c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Nas " + nasname + " not deleted successfully"})
     return
@@ -97,13 +97,13 @@ func DeleteNas(c *gin.Context) {
 // @Tags NAS
 // @Accept json
 // @Produce json
-// @Param username path string true "Nasname of the NAS to update"
+// @Param nasname path string true "Nasname of the NAS to update"
 // @Param nas body models.Nas true "Data to update the NAS"
 // @Success 200 "Nas updated successfully"
 // @Failure 500 "Error"
-// @Router /api/nas/{username} [patch]
+// @Router /api/nas/{nasname} [patch]
 func UpdateNas(c *gin.Context) {
-  nasname := c.Param("username")
+  nasname := c.Param("nasname")
   var json models.Nas
 
   if err := c.ShouldBindJSON(&json); err != nil {
@@ -116,3 +116,4 @@ func UpdateNas(c *gin.Context) {
   }
   c.JSON(http.StatusOK, gin.H{"message": "Nas " + nasname + " updated successfully"})
 }
+s

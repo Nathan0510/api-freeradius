@@ -9,22 +9,37 @@ func SetupRouter(r *gin.Engine){
 
 	{
 		api := r.Group("/api")
-		api.POST("/users", controllers.CreateUser)
-		api.GET("/users", controllers.GetAllUsers)
-		api.GET("/users/:username", controllers.GetUser)
-		api.DELETE("/users/:username", controllers.DeleteUser)
-		api.PATCH("/users/:username", controllers.UpdateUser)
-		api.DELETE("/users/option/:username", controllers.DeleteUserOption)
-		api.POST("/nas", controllers.CreateNas)
-		api.GET("/nas", controllers.GetAllNas)
-		api.GET("/nas/:username", controllers.GetNas)
-		api.DELETE("/nas/:username", controllers.DeleteNas)
-		api.PATCH("/nas/:username", controllers.UpdateNas)
-		api.POST("/group", controllers.CreateGroup)
-		api.GET("/group", controllers.GetAllGroup)
-		api.GET("/group/:groupname", controllers.GetGroup)
-		api.DELETE("/group/:groupname", controllers.DeleteGroup)
-		api.PATCH("/group/:groupname", controllers.UpdateGroup)
-		api.GET("/accounting/:username", controllers.GetAccounting)
+		users := api.Group("/users")
+		{
+			users.POST("", controllers.CreateUser)
+			users.GET("", controllers.GetAllUsers)
+			users.GET("/:username", controllers.GetUser)
+			users.DELETE("/:username", controllers.DeleteUser)
+			users.PATCH("/:username", controllers.UpdateUser)
+			users.DELETE("/option/:username", controllers.DeleteUserOption)
+		}
+		
+		nas := api.Group("/nas")
+		{
+			nas.POST("", controllers.CreateNas)
+			nas.GET("", controllers.GetAllNas)
+			nas.GET("/:nasname", controllers.GetNas)
+			nas.DELETE("/:nasname", controllers.DeleteNas)
+			nas.PATCH("/:nasname", controllers.UpdateNas)
+		}
+
+		groups := api.Group("/groups")
+		{
+			groups.POST("", controllers.CreateGroup)
+			groups.GET("", controllers.GetAllGroup)
+			groups.GET("/:groupname", controllers.GetGroup)
+			groups.DELETE("/:groupname", controllers.DeleteGroup)
+			groups.PATCH("/:groupname", controllers.UpdateGroup)
+		}
+		
+		accounting := api.Group("/accounting")
+		{
+			accounting.GET("/:username", controllers.GetAccounting)
+		}
 	}
 }
